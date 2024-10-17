@@ -50,19 +50,22 @@
             android:paddingTop="@dimen/_15sdp"
             android:paddingBottom="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginStart="@dimen/_80sdp"/>
+            android:layout_marginStart="@dimen/_60sdp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/top_rounded_background">
+        android:background="@drawable/top_rounded_background"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:padding="@dimen/_15sdp"/>
     </LinearLayout>
 
 

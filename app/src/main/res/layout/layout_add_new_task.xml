@@ -15,26 +15,20 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_20sdp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_name"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_14ssp"
-        android:layout_marginStart="@dimen/_20sdp"/>
-
     <EditText
         android:id="@+id/etTextTaskName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_50sdp"
         android:autofillHints="text"
         android:inputType="text"
         android:textColor="@color/black"
         android:textSize="@dimen/_14ssp"
         android:textCursorDrawable="@null"
         android:hint="@string/enter_task_name"
-        android:paddingStart="@dimen/_4sdp"
-        android:paddingEnd="@dimen/_4sdp"
+        android:textColorHint="@color/darGrey"
+        android:background="@drawable/rounded_background"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_20sdp"/>
