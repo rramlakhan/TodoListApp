@@ -1,5 +1,6 @@
 package com.example.todolist;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,14 +36,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull TaskAdapter.ViewHolder holder, int position) {
         Task item = list.get(position);
         holder.tvTaskName.setText(item.getTaskName());
+
+        if (item.getIsChecked() == 1) {
+            holder.checkBox.setChecked(true);
+        } else {
+            holder.checkBox.setChecked(false);
+        }
+
+        holder.checkBox.setOnClickListener(v -> {
+            if (holder.checkBox.isChecked()) {
+                db.updateTaskStatus(item.getId(), 1);
+            } else if (!holder.checkBox.isChecked()) {
+                db.updateTaskStatus(item.getId(), 0);
+            }
+
+        });
         holder.ivDelete.setOnClickListener(v -> {
             db.deleteTask(item.getId());
             notifyItemRemoved(holder.getAdapterPosition());
         });
-
-        dialog.setContentView(R.layout.layout_edit_task);
-        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         TextView etTextEditTaskName = dialog.findViewById(R.id.etTextEditTaskName);
         Button btnSave = dialog.findViewById(R.id.btnSave);
 

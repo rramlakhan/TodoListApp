@@ -39,7 +39,8 @@ public class HomeActivity extends AppCompatActivity {
         Button btnAddNew = findViewById(R.id.btnAddNew);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         DBHandler db = new DBHandler(HomeActivity.this);
-        Dialog dialog = new Dialog(HomeActivity.this);
+        Dialog dialogAddTask = new Dialog(HomeActivity.this);
+        Dialog dialogEditTask = new Dialog(HomeActivity.this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalDateTime current = LocalDateTime.now();
@@ -50,34 +51,38 @@ public class HomeActivity extends AppCompatActivity {
 
         taskList = db.readTask();
 
-        TaskAdapter taskAdapter = new TaskAdapter(taskList, db, dialog);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+
+        TaskAdapter taskAdapter = new TaskAdapter(taskList, db, dialogEditTask);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(taskAdapter);
 
+        dialogEditTask.setContentView(R.layout.layout_edit_task);
+        Objects.requireNonNull(dialogEditTask.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
-        dialog.setContentView(R.layout.layout_add_new_task);
-        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogAddTask.setContentView(R.layout.layout_add_new_task);
+        Objects.requireNonNull(dialogAddTask.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        EditText etTextTaskName = dialog.findViewById(R.id.etTextTaskName);
-        Button btnAddTask = dialog.findViewById(R.id.btnAddTask);
+        EditText etTextTaskName = dialogAddTask.findViewById(R.id.etTextTaskName);
+        Button btnAddTask = dialogAddTask.findViewById(R.id.btnAddTask);
 
         btnAddTask.setOnClickListener(v -> {
             String taskName = etTextTaskName.getText().toString();
             if (!taskName.isEmpty()) {
-                Task task = new Task(0, taskName);
+                String id = String.valueOf(System.currentTimeMillis());
+                Task task = new Task(id,0, taskName);
                 db.addNewTask(task);
                 taskList.add(task);
                 taskAdapter.notifyItemInserted(taskList.size());
             }
             etTextTaskName.setText("");
-            dialog.dismiss();
+            dialogAddTask.dismiss();
 
         });
 
         btnAddNew.setOnClickListener(v -> {
-            dialog.show();
+            dialogAddTask.show();
         });
     }
 }

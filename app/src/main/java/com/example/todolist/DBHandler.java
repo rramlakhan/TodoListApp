@@ -23,7 +23,7 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + " (" +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_ID + " TEXT PRIMARY KEY, " +
                 COL_CHECKED + " INTEGER, " +
                 COL_TASK_NAME + " TEXT)";
         db.execSQL(query);
@@ -45,7 +45,8 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<Task> taskList = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            taskList.add(new Task(cursor.getInt(1),
+            taskList.add(new Task(cursor.getString(0),
+                    cursor.getInt(1),
                     cursor.getString(2)));
         }
         cursor.close();
@@ -53,17 +54,25 @@ public class DBHandler extends SQLiteOpenHelper {
         return taskList;
     }
 
-    public void updateTask(int id, String taskName) {
+    public void updateTaskStatus(String id, int checked) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_TASK_NAME, taskName);
-        db.update(TABLE_NAME, contentValues, "id=?", new String[]{String.valueOf(id)});
+        contentValues.put(COL_CHECKED, checked);
+        db.update(TABLE_NAME, contentValues, COL_ID + " = ? ", new String[]{id});
         db.close();
     }
 
-    public void deleteTask(int id) {
+    public void updateTask(String id, String taskName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, "id=?", new String[]{String.valueOf(id)});
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_TASK_NAME, taskName);
+        db.update(TABLE_NAME, contentValues, COL_ID + " = ? ", new String[]{id});
+        db.close();
+    }
+
+    public void deleteTask(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, COL_ID + " = ? ", new String[]{id});
         db.close();
     }
 

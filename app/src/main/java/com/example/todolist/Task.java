@@ -1,11 +1,11 @@
 package com.example.todolist;
 
 public class Task {
-    private int id;
+    private String id;
     private int isChecked;
     private String taskName;
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
     public int getIsChecked() {
@@ -15,7 +15,7 @@ public class Task {
         return this.taskName;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     public void setIsChecked(int isChecked) {
@@ -25,7 +25,8 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public Task(int isChecked, String taskName) {
+    public Task(String id, int isChecked, String taskName) {
+        this.id = id;
         this.isChecked = isChecked;
         this.taskName = taskName;
     }
